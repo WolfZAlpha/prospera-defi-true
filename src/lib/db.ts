@@ -1,11 +1,10 @@
 import mongoose from 'mongoose';
 
-const DATABASE_URL = process.env.DATABASE_URL || process.env.DATABASE_URL_EXPANDED;
-console.log('DATABASE_URL:', DATABASE_URL);
-const CA_CERT = process.env.CA_CERT;
+const MONGODB_URI = process.env.MONGODB_URI;
+console.log('MONGODB_URI:', MONGODB_URI);
 
-if (!DATABASE_URL) {
-  throw new Error('Please define the DATABASE_URL environment variable');
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable');
 }
 
 interface Cached {
@@ -29,12 +28,7 @@ async function dbConnect() {
       bufferCommands: false,
     };
 
-    if (CA_CERT) {
-      opts.tls = true;
-      opts.tlsCAFile = CA_CERT;
-    }
-
-    cached.promise = mongoose.connect(DATABASE_URL!, opts).then((mongoose) => {
+    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
       console.log('Connected to MongoDB');
       return mongoose;
     });
