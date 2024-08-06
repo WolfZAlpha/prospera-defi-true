@@ -18,6 +18,25 @@ const PreLoader: React.FC<PreLoaderProps> = ({ onComplete }) => {
     setIsClient(true);
   }, []);
 
+  useEffect(() => {
+    if (isClient) {
+      const video = document.getElementById('background-video') as HTMLVideoElement;
+      if (video) {
+        video.addEventListener('loadedmetadata', () => {
+          console.log('Video metadata loaded');
+        });
+        video.addEventListener('play', () => {
+          console.log('Video started playing');
+        });
+        video.addEventListener('error', (e) => {
+          console.error('Video error:', e);
+        });
+      } else {
+        console.error('Video element not found');
+      }
+    }
+  }, [isClient]);
+
   const handleButtonClick = () => {
     const userResponse = prompt("DO YOU WISH TO PROSPER HUMAN?");
     if (userResponse && ['yes', 'YES', 'Yes'].includes(userResponse.trim())) {
@@ -67,7 +86,14 @@ const PreLoader: React.FC<PreLoaderProps> = ({ onComplete }) => {
     <div className={styles.preloaderContainer}>
       <div className={styles.videoBackground}>
         {isClient && (
-          <video autoPlay muted loop playsInline id="background-video" className={styles.backgroundVideo}>
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            id="background-video"
+            className={styles.backgroundVideo}
+          >
             <source src={videoSrc} type="video/mp4" />
             Your browser does not support the video tag.
           </video>

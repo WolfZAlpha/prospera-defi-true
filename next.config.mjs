@@ -11,10 +11,10 @@ const nextConfig = {
     config.resolve.alias['@'] = path.resolve(__dirname, 'src');
 
     config.module.rules.push({
-      test: /\.(mp4|png|jpg)$/,
+      test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
       type: 'asset/resource',
       generator: {
-        filename: 'static/media/[name].[hash][ext]',
+        filename: 'static/media/[name].[hash][ext]'
       },
     });
     return config;
