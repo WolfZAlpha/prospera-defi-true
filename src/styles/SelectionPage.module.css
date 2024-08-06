@@ -1,0 +1,78 @@
+/* src/styles/SelectionPage.module.css */
+
+.selectionPage {
+  background-image: url('/assets/desktop-backgrounds/hexagonal/hex_green.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+  }
+  
+  .button {
+    display: inline-block;
+    margin: 1rem 0;
+    padding: 1rem 2rem;
+    border-radius: 0;
+    border: 4px solid transparent;
+    color: white;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: black;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: color 0.3s, background-color 0.3s, border-image 0.3s;
+    --border-angle: 0turn;
+    border-image: conic-gradient(from var(--border-angle), #01ff02, transparent 25%, #01ff02 99%) 1;
+    width: 300px; /* Adjust the width as needed */
+    text-align: center;
+  }
+  
+  .button p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  
+  .button:hover {
+    color: black;
+    background-color: #01ff02;
+    --hover-angle: 360deg;
+    border-image: conic-gradient(from var(--border-angle), #000, transparent 25%, #000 99%) 1;
+  }
+  
+  @keyframes rotateClockwise {
+    to {
+      --border-angle: 1turn;
+    }
+  }
+  
+  @keyframes rotateCounterClockwise {
+    to {
+      --border-angle: -1turn;
+    }
+  }
+  
+  .buttonIco {
+    animation: rotateClockwise 3s linear infinite;
+  }
+  
+  .buttonDesktop {
+    animation: rotateCounterClockwise 3s linear infinite;
+  }
+  
+  .button:hover.buttonIco {
+    --border-angle: -1turn;
+  }
+  
+  .button:hover.buttonDesktop {
+    --border-angle: 1turn;
+  }
+  
