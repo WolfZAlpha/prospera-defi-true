@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
-const DATABASE_URL = process.env.DATABASE_URL;
+const DATABASE_URL = process.env.DATABASE_URL || process.env.DATABASE_URL_EXPANDED;
+console.log('DATABASE_URL:', DATABASE_URL);
 const CA_CERT = process.env.CA_CERT;
 
 if (!DATABASE_URL) {
