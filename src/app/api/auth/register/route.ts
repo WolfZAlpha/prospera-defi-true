@@ -4,11 +4,11 @@ import dbConnect from '@/lib/db';
 import User from '@/models/User';
 
 export async function POST(req: Request) {
-  await dbConnect();
-
-  const { email, username, password, arbitrumWallet } = await req.json();
-
   try {
+    await dbConnect();
+
+    const { email, username, password, arbitrumWallet } = await req.json();
+
     let user = await User.findOne({ $or: [{ email }, { username }] });
 
     if (user) {
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: 'User registered successfully' }, { status: 201 });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: 'Server error' }, { status: 500 });
+    console.error('Detailed error:', error);
+    return NextResponse.json({ message: 'Server error', error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }

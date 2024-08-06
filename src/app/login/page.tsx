@@ -44,6 +44,10 @@ const LoginPage: React.FC = () => {
       const response = await axios.post(endpoint, formData);
       console.log('Response:', response);
       if (response.status === 200 || response.status === 201) {
+        // Store the token if it's a login response
+        if (!isSignUp && response.data.token) {
+          localStorage.setItem('token', response.data.token);
+        }
         router.push('/selection');
       }
     } catch (error) {

@@ -5,11 +5,11 @@ import dbConnect from '@/lib/db';
 import User from '@/models/User';
 
 export async function POST(req: Request) {
-  await dbConnect();
-
-  const { emailOrUsername, password } = await req.json();
-
   try {
+    await dbConnect();
+
+    const { emailOrUsername, password } = await req.json();
+
     const user = await User.findOne({
       $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
     });
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ token });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: 'Server error' }, { status: 500 });
+    console.error('Detailed error:', error);
+    return NextResponse.json({ message: 'Server error', error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }
