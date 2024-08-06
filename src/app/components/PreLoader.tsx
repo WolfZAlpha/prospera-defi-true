@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from '../../styles/PreLoader.module.css';
 import { useRouter } from 'next/navigation';
-import videoSrc from '../../assets/video-backgrounds/Pre-Loader/prospera-main-bg-1.mp4';
+import videoSrc from '@/assets/video-backgrounds/Pre-Loader/prospera-main-bg-1.mp4';
 
 interface PreLoaderProps {
   onComplete: () => void;
