@@ -6,10 +6,10 @@ import User from '@/models/User';
 export async function POST(req: Request) {
   await dbConnect();
 
-  const { email, password } = await req.json();
+  const { email, username, password, arbitrumWallet } = await req.json();
 
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ $or: [{ email }, { username }] });
 
     if (user) {
       return NextResponse.json({ message: 'User already exists' }, { status: 400 });
@@ -20,7 +20,9 @@ export async function POST(req: Request) {
 
     user = new User({
       email,
+      username,
       password: hashedPassword,
+      arbitrumWallet,
     });
 
     await user.save();

@@ -7,10 +7,12 @@ import User from '@/models/User';
 export async function POST(req: Request) {
   await dbConnect();
 
-  const { email, password } = await req.json();
+  const { emailOrUsername, password } = await req.json();
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({
+      $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
+    });
 
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });

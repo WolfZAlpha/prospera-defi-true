@@ -38,12 +38,16 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const endpoint = isSignUp ? '/api/auth/register' : '/api/auth/login';
+    console.log('Submitting to:', endpoint);
+    console.log('Form data:', formData);
     try {
       const response = await axios.post(endpoint, formData);
+      console.log('Response:', response);
       if (response.status === 200 || response.status === 201) {
         router.push('/selection');
       }
     } catch (error) {
+      console.error('Error:', error);
       if (axios.isAxiosError(error)) {
         setError(error.response ? error.response.data.message : 'Server error');
       } else {

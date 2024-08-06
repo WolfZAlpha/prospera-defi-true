@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-interface IUser extends Document {
+export interface IUser extends Document {
   email: string;
   username: string;
   password: string;
@@ -14,6 +14,6 @@ const userSchema: Schema<IUser> = new Schema({
   arbitrumWallet: { type: String, required: false },
 });
 
-const User: Model<IUser> = mongoose.models.User || mongoose.model('User', userSchema);
+const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', userSchema);
 
 export default User;
