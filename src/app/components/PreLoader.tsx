@@ -1,9 +1,12 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import styles from '../../styles/PreLoader.module.css';
-import { useRouter } from 'next/navigation';  // Changed from 'next/router'
+import { useRouter } from 'next/navigation';
+
+const DynamicVideo = dynamic(() => import('../components/DynamicVideo'), { ssr: false });
 
 interface PreLoaderProps {
   onComplete: () => void;
@@ -11,7 +14,12 @@ interface PreLoaderProps {
 
 const PreLoader: React.FC<PreLoaderProps> = ({ onComplete }) => {
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
   const videoBackground = '/assets/desktop-backgrounds/video-backgrounds/Pre-Loader/prospera-main-bg-1.mp4';
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleButtonClick = () => {
     const userResponse = prompt("DO YOU WISH TO PROSPER HUMAN?");
@@ -61,10 +69,7 @@ const PreLoader: React.FC<PreLoaderProps> = ({ onComplete }) => {
   return (
     <div className={styles.preloaderContainer}>
       <div className={styles.videoBackground}>
-        <video autoPlay muted loop playsInline id="background-video" className={styles.backgroundVideo}>
-          <source src={videoBackground} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        {isClient && <DynamicVideo src={videoBackground} />}
       </div>
       <Image src="/images/logo.png" alt="Prospera Logo" width={256} height={256} className={styles.logo} />
       <Image src="/images/h4ck3rhuman.png" alt="Background Image" width={256} height={256} className={styles.backgroundImage} />
