@@ -91,9 +91,6 @@ const LoginPage: React.FC = () => {
                     </p>
                     <button type="submit" className={`btn btn-primary w-100 ${styles.loginBtn}`}>Login</button>
                   </form>
-                  <div className="d-flex flex-row mt-2 mb-2 justify-content-center w-100">
-                    <a href="/auth/twitter" className={`btn btn-primary w-100 mt-2 ${styles.loginBtn}`}>Login with Twitter</a>
-                  </div>
                   <div>
                     <p className={`text-center mb-0 ${styles.textWhite50}`}>
                       Don&apos;t have an account? <a href="#!" className={`font-bold ${styles.textWhite50}`} onClick={toggleSignUp}>Sign Up</a>
@@ -173,9 +170,6 @@ const LoginPage: React.FC = () => {
                     </div>
                     <button type="submit" className={`btn btn-primary w-100 ${styles.signUpBtn}`}>Sign Up</button>
                   </form>
-                  <div className="d-flex flex-row mt-2 mb-2 justify-content-center w-100">
-                    <a href="/auth/twitter" className={`btn btn-primary w-100 mt-2 ${styles.signUpBtn}`}>Sign Up with Twitter</a>
-                  </div>
                   <div>
                     <p className={`text-center mb-0 ${styles.textWhite50}`}>
                       Already have an account? <a href="#!" className={`font-bold ${styles.textWhite50}`} onClick={toggleSignUp}>Log In</a>
