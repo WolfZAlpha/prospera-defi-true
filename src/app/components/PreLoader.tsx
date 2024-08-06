@@ -84,8 +84,8 @@ const PreLoader: React.FC<PreLoaderProps> = ({ onComplete }) => {
   }, []);
 
   return (
-    <div className={`${styles.preloaderContainer} flex flex-col items-center justify-between min-h-screen w-full p-4`}>
-      <div className={`${styles.videoBackground} fixed inset-0`}>
+    <div className={styles.preloaderContainer}>
+      <div className={styles.videoBackground}>
         {isClient && (
           <video
             autoPlay
@@ -93,22 +93,38 @@ const PreLoader: React.FC<PreLoaderProps> = ({ onComplete }) => {
             loop
             playsInline
             id="background-video"
-            className={`${styles.backgroundVideo} object-cover w-full h-full`}
+            className={styles.backgroundVideo}
           >
             <source src={videoSrc} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         )}
       </div>
-      <div className="flex-grow flex flex-col items-center justify-center w-full">
-        <Image src="/images/logo.png" alt="Prospera Logo" width={256} height={256} className={`${styles.logo} w-1/2 max-w-xs mb-8`} />
-        <Image src="/images/h4ck3rhuman.png" alt="Background Image" width={256} height={256} className={`${styles.backgroundImage} w-3/4 max-w-sm mb-8`} />
+      <div className={styles.contentWrapper}>
+        <Image 
+          src="/images/logo.png" 
+          alt="Prospera Logo" 
+          width={256} 
+          height={256} 
+          className={styles.logo}
+          sizes="(max-width: 768px) 30vw, (max-width: 1200px) 25vw, 256px"
+        />
+        <div className={styles.bottomContent}>
+          <Image 
+            src="/images/h4ck3rhuman.png" 
+            alt="Background Image" 
+            width={256} 
+            height={256} 
+            className={styles.backgroundImage}
+            sizes="(max-width: 768px) 40vw, (max-width: 1200px) 35vw, 256px"
+          />
+          <button className={styles.glowingBtn} onClick={handleButtonClick}>
+            <span className={styles.glowingTxt}>P<span className={styles.faultyLetter}>ROSPER</span>A</span>
+          </button>
+        </div>
       </div>
-      <button className={`${styles.glowingBtn} text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl mb-8`} onClick={handleButtonClick}>
-        <span className={styles.glowingTxt}>P<span className={styles.faultyLetter}>ROSPER</span>A</span>
-      </button>
     </div>
   );
-};
+};  
 
 export default PreLoader;

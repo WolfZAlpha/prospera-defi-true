@@ -33,13 +33,13 @@
   opacity: 0.55;
 }
 
-.backgroundImage {
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  z-index: 0;
-  opacity: 1;
-  margin-bottom: 5px; /* Add space between image and button */
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
 }
 
 .logo {
@@ -49,21 +49,27 @@
   z-index: 1;
   animation: rotate-counterclockwise 2s linear infinite;
   margin-top: 30px;
-  margin-bottom: 30px; /* Add space between logo and hacker image */
 }
 
-@keyframes rotate-counterclockwise {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(-360deg);
-  }
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+}
+
+.backgroundImage {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  z-index: 0;
+  opacity: 1;
+  margin-bottom: 5px;
 }
 
 .glowingBtn {
-  margin-top: 10px; /* Reduce top margin to bring button closer to image */
-  margin-bottom: 20px; /* Reduce bottom margin */
+  margin-top: 10px;
+  margin-bottom: 20px;
   position: relative;
   color: var(--glow-color);
   cursor: pointer;
@@ -147,6 +153,15 @@
   opacity: 0.8;
 }
 
+@keyframes rotate-counterclockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
 @keyframes faulty-flicker {
   0% { opacity: 0.1; }
   2% { opacity: 0.1; }
@@ -215,6 +230,5 @@
   .glowingBtn {
     font-size: 1em;
     padding: 0.1em 0.3em;
-    margin-bottom: 20px;
   }
 }
