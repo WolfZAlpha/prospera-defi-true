@@ -6,29 +6,38 @@ import User from '@/models/User';
 
 export async function POST(req: Request) {
   try {
+    console.log('Attempting to connect to database');
     await dbConnect();
+    console.log('Connected to database successfully');
 
     const { emailOrUsername, password } = await req.json();
+    console.log(`Login attempt for: ${emailOrUsername}`);
 
     const user = await User.findOne({
-      $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
+      $or: [
+        { email: emailOrUsername.toLowerCase() },
+        { username: emailOrUsername }
+      ]
     });
 
     if (!user) {
+      console.log(`User not found: ${emailOrUsername}`);
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
+      console.log(`Invalid credentials for user: ${emailOrUsername}`);
       return NextResponse.json({ message: 'Invalid credentials' }, { status: 400 });
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+    console.log(`Login successful for user: ${emailOrUsername}`);
 
-    return NextResponse.json({ token });
+    return NextResponse.json({ token, user: user.toJSON() });
   } catch (error) {
-    console.error('Detailed error:', error);
+    console.error('Detailed login error:', error);
     return NextResponse.json({ message: 'Server error', error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }
