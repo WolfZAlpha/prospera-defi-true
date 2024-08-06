@@ -34,21 +34,22 @@
 }
 
 .backgroundImage {
-  position: relative;
-  max-width: 256px;
-  width: 50%;
+  width: auto;
   height: auto;
+  max-width: 100%;
   z-index: 0;
   opacity: 1;
+  margin-bottom: 5px; /* Add space between image and button */
 }
 
 .logo {
-  max-width: 256px;
-  width: 40%;
+  width: auto;
   height: auto;
+  max-width: 100%;
   z-index: 1;
   animation: rotate-counterclockwise 2s linear infinite;
   margin-top: 30px;
+  margin-bottom: 30px; /* Add space between logo and hacker image */
 }
 
 @keyframes rotate-counterclockwise {
@@ -61,7 +62,8 @@
 }
 
 .glowingBtn {
-  margin-bottom: 70px;
+  margin-top: 10px; /* Reduce top margin to bring button closer to image */
+  margin-bottom: 20px; /* Reduce bottom margin */
   position: relative;
   color: var(--glow-color);
   cursor: pointer;
@@ -213,6 +215,6 @@
   .glowingBtn {
     font-size: 1em;
     padding: 0.1em 0.3em;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 }
