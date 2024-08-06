@@ -1,229 +1,181 @@
 .preloaderContainer {
-  --glow-color: #01ff02; /* Scoped to the PreLoader component */
+    --glow-color: #01ff02; /* Scoped to the PreLoader component */
+    
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    padding: 20px;
+  }
   
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  padding: 20px;
-}
-
-.videoBackground {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  z-index: -2;
-}
-
-.backgroundVideo {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-  transform: translate(-50%, -50%);
-  opacity: 0.55;
-}
-
-.backgroundImage {
-  position: absolute;
-  bottom: 20px;
-  height: 30%;
-  width: auto;
-  z-index: 0;
-  opacity: 1;
-}
-
-.logo {
-  max-height: 20%;
-  width: auto;
-  z-index: 1;
-  animation: rotate-counterclockwise 2s linear infinite;
-  margin-top: 20px;
-}
-
-@keyframes rotate-counterclockwise {
-  from {
-    transform: rotate(0deg);
+  .videoBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: -2;
   }
-  to {
-    transform: rotate(-360deg);
+  
+  .backgroundVideo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    opacity: 0.55;
   }
-}
-
-.glowingBtn {
-  margin-bottom: 30px;
-  position: relative;
-  color: var(--glow-color);
-  cursor: pointer;
-  padding: 0.5em 1em;
-  border: 0.1em solid var(--glow-color);
-  border-radius: 0.3em;
-  background: none;
-  perspective: 2em;
-  font-family: "Roboto", sans-serif;
-  font-size: 1.2em;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-  z-index: 2;
-  box-shadow: inset 0px 0px 0.5em 0px var(--glow-color),
-              0px 0px 0.5em 0px var(--glow-color);
-  animation: border-flicker 2s linear infinite;
-  text-align: center;
-}
-
-.glowingTxt {
-  float: left;
-  margin-right: -0.1em;
-  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em var(--glow-color);
-  animation: text-flicker 3s linear infinite;
-}
-
-.faultyLetter {
-  opacity: 0.5;
-  animation: faulty-flicker 2s linear infinite;
-}
-
-.glowingBtn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  opacity: 0.7;
-  filter: blur(1em);
-  transform: translateY(120%) rotateX(95deg) scale(1, 0.35);
-  background: var(--glow-color);
-  pointer-events: none;
-}
-
-.glowingBtn::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  z-index: -1;
-  background-color: var(--glow-color);
-  box-shadow: 0 0 2em 0.2em var(--glow-color);
-  transition: opacity 100ms linear;
-}
-
-.glowingBtn:hover {
-  color: rgba(0, 0, 0, 0.8);
-  text-shadow: none;
-  animation: none;
-}
-
-.glowingBtn:hover .glowingTxt {
-  animation: none;
-}
-
-.glowingBtn:hover .faultyLetter {
-  animation: none;
-  text-shadow: none;
-  opacity: 1;
-}
-
-.glowingBtn:hover:before {
-  filter: blur(1.5em);
-  opacity: 1;
-}
-
-.glowingBtn:hover:after {
-  opacity: 0.8;
-}
-
-@keyframes faulty-flicker {
-  0% { opacity: 0.1; }
-  2% { opacity: 0.1; }
-  4% { opacity: 0.5; }
-  19% { opacity: 0.5; }
-  21% { opacity: 0.1; }
-  23% { opacity: 1; }
-  80% { opacity: 0.5; }
-  83% { opacity: 0.4; }
-  87% { opacity: 1; }
-}
-
-@keyframes text-flicker {
-  0% { opacity: 0.1; }
-  2% { opacity: 1; }
-  8% { opacity: 0.1; }
-  9% { opacity: 1; }
-  12% { opacity: 0.1; }
-  20% { opacity: 1; }
-  25% { opacity: 0.3; }
-  30% { opacity: 1; }
-  70% { opacity: 0.7; }
-  72% { opacity: 0.2; }
-  77% { opacity: 0.9; }
-  100% { opacity: 0.9; }
-}
-
-@keyframes border-flicker {
-  0% { opacity: 0.1; }
-  2% { opacity: 1; }
-  4% { opacity: 0.1; }
-  8% { opacity: 1; }
-  70% { opacity: 0.7; }
-  100% { opacity: 1; }
-}
-
-@media (min-width: 600px) {
-  .glowingBtn {
-    font-size: 1.5em;
-    padding: 0.7em 1.2em;
-  }
-
-  .logo {
-    max-height: 30%;
-    margin-top: 40px;
-  }
-
+  
   .backgroundImage {
+    position: absolute;
+    bottom: 110px;
+    height: 50%;
+    z-index: 0;
+    opacity: 1;
+  }
+  
+  .logo {
     max-height: 40%;
+    width: auto;
+    z-index: 1;
+    animation: rotate-counterclockwise 2s linear infinite;
+    margin-top: 30px;
   }
-}
-
-@media (min-width: 768px) {
+  
+  @keyframes rotate-counterclockwise {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+  
   .glowingBtn {
-    font-size: 1.8em;
-    padding: 0.9em 1.5em;
+    margin-bottom: 70px;
+    position: relative;
+    color: var(--glow-color);
+    cursor: pointer;
+    padding: 0.2em 0.5em;
+    border: 0.1em solid var(--glow-color);
+    border-radius: 0.3em;
+    background: none;
+    perspective: 2em;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.5em;
+    font-weight: 900;
+    letter-spacing: 0.5em;
+    z-index: 2;
+    box-shadow: inset 0px 0px 0.5em 0px var(--glow-color),
+                0px 0px 0.5em 0px var(--glow-color);
+    animation: border-flicker 2s linear infinite;
   }
-
-  .logo {
-    max-height: 20%;
+  
+  .glowingTxt {
+    float: left;
+    margin-right: -0.8em;
+    text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em var(--glow-color);
+    animation: text-flicker 3s linear infinite;
   }
-
-  .backgroundImage {
-    max-height: 35%;
+  
+  .faultyLetter {
+    opacity: 0.5;
+    animation: faulty-flicker 2s linear infinite;
   }
-}
-
-@media (min-width: 1024px) {
-  .glowingBtn {
-    font-size: 2em;
-    padding: 1em 2em;
+  
+  .glowingBtn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.7;
+    filter: blur(1em);
+    transform: translateY(120%) rotateX(95deg) scale(1, 0.35);
+    background: var(--glow-color);
+    pointer-events: none;
   }
-
-  .logo {
-    max-height: 15%;
+  
+  .glowingBtn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    z-index: -1;
+    background-color: var(--glow-color);
+    box-shadow: 0 0 2em 0.2em var(--glow-color);
+    transition: opacity 100ms linear;
   }
-
-  .backgroundImage {
-    max-height: 30%;
+  
+  .glowingBtn:hover {
+    color: rgba(0, 0, 0, 0.8);
+    text-shadow: none;
+    animation: none;
   }
-}
+  
+  .glowingBtn:hover .glowingTxt {
+    animation: none;
+  }
+  
+  .glowingBtn:hover .faultyLetter {
+    animation: none;
+    text-shadow: none;
+    opacity: 1;
+  }
+  
+  .glowingBtn:hover:before {
+    filter: blur(1.5em);
+    opacity: 1;
+  }
+  
+  .glowingBtn:hover:after {
+    opacity: 0.8;
+  }
+  
+  @keyframes faulty-flicker {
+    0% { opacity: 0.1; }
+    2% { opacity: 0.1; }
+    4% { opacity: 0.5; }
+    19% { opacity: 0.5; }
+    21% { opacity: 0.1; }
+    23% { opacity: 1; }
+    80% { opacity: 0.5; }
+    83% { opacity: 0.4; }
+    87% { opacity: 1; }
+  }
+  
+  @keyframes text-flicker {
+    0% { opacity: 0.1; }
+    2% { opacity: 1; }
+    8% { opacity: 0.1; }
+    9% { opacity: 1; }
+    12% { opacity: 0.1; }
+    20% { opacity: 1; }
+    25% { opacity: 0.3; }
+    30% { opacity: 1; }
+    70% { opacity: 0.7; }
+    72% { opacity: 0.2; }
+    77% { opacity: 0.9; }
+    100% { opacity: 0.9; }
+  }
+  
+  @keyframes border-flicker {
+    0% { opacity: 0.1; }
+    2% { opacity: 1; }
+    4% { opacity: 0.1; }
+    8% { opacity: 1; }
+    70% { opacity: 0.7; }
+    100% { opacity: 1; }
+  }

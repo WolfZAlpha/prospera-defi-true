@@ -100,8 +100,8 @@ const PreLoader: React.FC<PreLoaderProps> = ({ onComplete }) => {
           </video>
         )}
       </div>
-      <Image src="/images/logo.png" alt="Prospera Logo" className={styles.logo} />
-      <Image src="/images/h4ck3rhuman.png" alt="Background Image" className={styles.backgroundImage} />
+      <Image src="/images/logo.png" alt="Prospera Logo" width={256} height={256} className={styles.logo} />
+      <Image src="/images/h4ck3rhuman.png" alt="Background Image" width={256} height={256} className={styles.backgroundImage} />
       <button className={styles.glowingBtn} onClick={handleButtonClick}>
         <span className={styles.glowingTxt}>P<span className={styles.faultyLetter}>ROSPER</span>A</span>
       </button>
