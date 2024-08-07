@@ -3,10 +3,11 @@ import fs from 'fs';
 import path from 'path';
 
 // Accessing MongoDB URI and CA Certificate from environment variables
-const MONGODB_URI: string | undefined = process.env.MONGODB_URI;
+const MONGODB_URI: string = process.env.MONGODB_URI!;
 const CA_CERT: string | undefined = process.env.CA_CERT;
 
 console.log('MONGODB_URI:', MONGODB_URI);
+console.log('CA_CERT:', CA_CERT ? 'Present' : 'Not Defined');
 
 // Throw an error if the MONGODB_URI is not defined
 if (!MONGODB_URI) {
@@ -26,6 +27,7 @@ function getDecodedCACert(base64Cert: string): string {
 
   // Writing the decoded certificate to the temporary file
   fs.writeFileSync(tempFilePath, decodedCert);
+  console.log('CA Certificate written to temporary file:', tempFilePath);
 
   return tempFilePath;
 }
@@ -59,16 +61,21 @@ async function dbConnect() {
         const tempFilePath = path.join('/tmp', 'ca-cert.pem');
         fs.writeFileSync(tempFilePath, CA_CERT); // Write raw cert to file
         opts.tlsCAFile = tempFilePath;
+        console.log('Using raw CA certificate');
       } else if (CA_CERT.match(/^([A-Za-z0-9+/=]+)$/)) {
         // If CA_CERT is Base64 encoded
         opts.tlsCAFile = getDecodedCACert(CA_CERT);
+        console.log('Using Base64 encoded CA certificate');
       } else {
         // If CA_CERT is a file path
         opts.tlsCAFile = CA_CERT;
+        console.log('Using CA certificate from file path');
       }
 
       opts.tlsAllowInvalidHostnames = false;
       opts.tlsAllowInvalidCertificates = false;
+    } else {
+      console.log('No CA certificate provided');
     }
 
     console.log('Creating new database connection');
