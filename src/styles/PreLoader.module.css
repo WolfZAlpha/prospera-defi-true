@@ -216,8 +216,9 @@
   }
 
   .bottomContent {
-    justify-content: flex-start;
-    margin-top: 20px;
+    justify-content: flex-end;
+    margin-top: auto;
+    padding-bottom: 20px;
   }
 
   .backgroundImage {
@@ -230,7 +231,10 @@
     font-size: 1em;
     padding: 0.15em 0.4em;
     letter-spacing: 0.3em;
-    margin-bottom: 20px;
+  }
+
+  .glowingTxt {
+    margin-right: -0.3em; /* Adjust to prevent 'A' from sticking out */
   }
 }
 
@@ -246,7 +250,7 @@
   }
 
   .bottomContent {
-    margin-top: 10px;
+    padding-bottom: 15px;
   }
 
   .backgroundImage {
@@ -256,9 +260,12 @@
   }
 
   .glowingBtn {
-    font-size: 0.8em;
+    font-size: 0.7em;
     padding: 0.1em 0.2em;
     letter-spacing: 0.2em;
-    margin-bottom: 15px;
+  }
+
+  .glowingTxt {
+    margin-right: -0.2em; /* Further adjust for smallest screens */
   }
 }
