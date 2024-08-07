@@ -16,8 +16,8 @@ if (!MONGODB_URI) {
 
 // Cache object to store the database connection
 let cached: {
-  conn: typeof mongoose | null;
-  promise: Promise<typeof mongoose> | null;
+  conn: mongoose.Mongoose | null;
+  promise: Promise<mongoose.Mongoose> | null;
 } = (global as any).mongoose || { conn: null, promise: null };
 
 // Function to decode Base64 encoded certificate and write to a temporary file
@@ -33,7 +33,7 @@ function getDecodedCACert(base64Cert: string): string {
 }
 
 // Database connection function
-async function dbConnect() {
+async function dbConnect(): Promise<mongoose.Mongoose> {
   // If a connection already exists, use it
   if (cached.conn) {
     console.log('Using existing database connection');
@@ -50,33 +50,13 @@ async function dbConnect() {
       socketTimeoutMS: 45000,          // 45 seconds timeout for socket
       // Connection pool settings
       maxPoolSize: 10,                 // Limit connection pool to 10 connections
+      tls: CA_CERT !== undefined,      // Enable TLS if CA_CERT is defined
+      tlsAllowInvalidHostnames: false, // Strict hostname validation
+      tlsAllowInvalidCertificates: false, // Strict certificate validation
+      tlsCAFile: CA_CERT?.includes('BEGIN CERTIFICATE') || CA_CERT?.match(/^([A-Za-z0-9+/=]+)$/)
+        ? getDecodedCACert(CA_CERT)
+        : CA_CERT // Handle Base64 or raw cert file path
     };
-
-    // Handle TLS options if CA_CERT is provided
-    if (CA_CERT) {
-      opts.tls = true;
-
-      if (CA_CERT.includes('BEGIN CERTIFICATE')) {
-        // If CA_CERT is a raw certificate string
-        const tempFilePath = path.join('/tmp', 'ca-cert.pem');
-        fs.writeFileSync(tempFilePath, CA_CERT); // Write raw cert to file
-        opts.tlsCAFile = tempFilePath;
-        console.log('Using raw CA certificate');
-      } else if (CA_CERT.match(/^([A-Za-z0-9+/=]+)$/)) {
-        // If CA_CERT is Base64 encoded
-        opts.tlsCAFile = getDecodedCACert(CA_CERT);
-        console.log('Using Base64 encoded CA certificate');
-      } else {
-        // If CA_CERT is a file path
-        opts.tlsCAFile = CA_CERT;
-        console.log('Using CA certificate from file path');
-      }
-
-      opts.tlsAllowInvalidHostnames = false;
-      opts.tlsAllowInvalidCertificates = false;
-    } else {
-      console.log('No CA certificate provided');
-    }
 
     console.log('Creating new database connection');
 
