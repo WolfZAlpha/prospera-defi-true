@@ -1,17 +1,23 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import PreLoader from './components/PreLoader';
 
 export default function Home() {
   const router = useRouter();
+  const [showPreloader, setShowPreloader] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
+  const handlePreloaderComplete = () => {
+    setShowPreloader(false);
+    setTimeout(() => {
       router.push('/login');
     }, 2000);
-    return () => clearTimeout(timer);
-  }, [router]);
+  };
 
-  return null;  // The PreLoader is now handled in the layout
+  if (showPreloader) {
+    return <PreLoader onComplete={handlePreloaderComplete} />;
+  }
+
+  return null;
 }

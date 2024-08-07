@@ -21,12 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [loading, setLoading] = useState(true);
+  const [preloaderCompleted, setPreloaderCompleted] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem('preloaderCompleted')) {
-      setLoading(false);
-    }
-
     // Dynamically import Bootstrap JS
     const loadBootstrap = async () => {
       try {
@@ -40,7 +37,7 @@ export default function RootLayout({
   }, []);
 
   const handlePreloaderComplete = () => {
-    sessionStorage.setItem('preloaderCompleted', 'true');
+    setPreloaderCompleted(true);
     setLoading(false);
   };
 
