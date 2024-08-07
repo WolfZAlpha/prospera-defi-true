@@ -63,11 +63,11 @@
 }
 
 .buttonIco {
-  animation: rotateClockwise 3s linear infinite;
+  animation: rotateClockwise 3s linear infinite !important;
 }
 
 .buttonDesktop {
-  animation: rotateCounterClockwise 3s linear infinite;
+  animation: rotateCounterClockwise 3s linear infinite !important;
 }
 
 .button:hover.buttonIco {

@@ -1,6 +1,7 @@
-'use client';
+'use client';  // Add this at the top of the file
 
 import React from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import styles from '../../styles/SelectionPage.module.css';
 
@@ -8,18 +9,14 @@ const SelectionPage: React.FC = () => {
   const router = useRouter();
 
   const handleNavigation = (path: string) => {
-    if (path.startsWith('https')) {
-      window.location.href = path;
-    } else {
-      router.push(path);
-    }
+    router.push(path);
   };
 
   return (
     <div className={styles.selectionPage}>
       <button
         className={`${styles.button} ${styles.buttonIco}`}
-        onClick={() => handleNavigation('https://prosperaico.com')}
+        onClick={() => handleNavigation('http://www.prosperaico.com')}
       >
         ICO
         <p>Initial Coin Offering</p>
