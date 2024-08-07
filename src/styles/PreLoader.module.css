@@ -59,6 +59,7 @@
   justify-content: flex-end;
   flex-grow: 1;
   width: 100%;
+  padding-bottom: 20px;
 }
 
 .backgroundImage {
@@ -67,12 +68,12 @@
   max-width: 100%;
   z-index: 0;
   opacity: 1;
-  margin-bottom: 0;
+  margin-bottom: 10px;
 }
 
 .glowingBtn {
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 0;
   position: relative;
   color: var(--glow-color);
   cursor: pointer;
@@ -203,35 +204,50 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .preloaderContainer {
+    justify-content: flex-start;
+    padding: 10px;
+  }
+
   .logo {
     width: 30%;
-    max-width: 200px;
+    max-width: 150px;
+    margin-top: 20px;
+  }
+
+  .bottomContent {
+    margin-top: auto;
+    padding-bottom: 10px;
   }
 
   .backgroundImage {
-    width: 40%;
-    max-width: 200px;
+    width: 35%;
+    max-width: 150px;
+    margin-bottom: 10px;
   }
 
   .glowingBtn {
-    font-size: 1.2em;
+    font-size: 1em;
     padding: 0.15em 0.4em;
+    letter-spacing: 0.3em;
   }
 }
 
 @media (max-width: 480px) {
   .logo {
     width: 25%;
-    max-width: 150px;
+    max-width: 120px;
+    margin-top: 10px;
   }
 
   .backgroundImage {
-    width: 35%;
-    max-width: 150px;
+    width: 30%;
+    max-width: 120px;
   }
 
   .glowingBtn {
-    font-size: 1em;
-    padding: 0.1em 0.3em;
+    font-size: 0.8em;
+    padding: 0.1em 0.2em;
+    letter-spacing: 0.2em;
   }
 }
