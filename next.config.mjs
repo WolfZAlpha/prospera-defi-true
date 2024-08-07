@@ -36,7 +36,26 @@ const nextConfig = {
             key: 'Access-Control-Allow-Headers',
             value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
           },
+          {
+            key: 'Content-Security-Policy',
+            value: `default-src 'self' https://www.prosperadefi.com https://prosperadefi.com; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;`,
+          },
         ],
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'prosperadefi.com',
+          },
+        ],
+        destination: 'https://www.prosperadefi.com/:path*',
+        permanent: true,
       },
     ];
   },

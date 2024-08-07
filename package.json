@@ -12,9 +12,7 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "@tailwindcss/typography": "^0.5.13",
-    "@types/bcryptjs": "^2.4.6",
     "@types/bootstrap": "^5.2.10",
-    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.14.14",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18",
@@ -25,6 +23,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.2",
     "next": "14.2.5",
+    "nodemailer": "^6.9.14",
     "postcss": "^8",
     "react": "^18",
     "react-dom": "^18",
@@ -33,7 +32,10 @@
     "typescript": "^5.5.4"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/mongoose": "^5.11.97",
+    "@types/nodemailer": "^6.4.15",
     "eslint": "^8",
     "eslint-config-next": "14.2.5"
   }

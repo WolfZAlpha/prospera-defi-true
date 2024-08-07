@@ -2,8 +2,10 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
+import mongoose from 'mongoose';
 
 export async function POST(req: Request) {
+  console.log('Registration route hit');
   try {
     console.log('Attempting to connect to database');
     await dbConnect();
@@ -34,12 +36,17 @@ export async function POST(req: Request) {
       arbitrumWallet: arbitrumWallet ? arbitrumWallet.trim() : undefined,
     });
 
+    console.log('Attempting to save new user');
     await newUser.save();
     console.log(`User registered successfully: ${email}`);
 
     return NextResponse.json({ message: 'User registered successfully', user: newUser.toJSON() }, { status: 201 });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Detailed registration error:', error);
+    if (error instanceof mongoose.Error.ValidationError) {
+      console.error('Validation error:', error.errors);
+      return NextResponse.json({ message: 'Validation error', error: error.message }, { status: 400 });
+    }
     return NextResponse.json({ message: 'Server error', error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }

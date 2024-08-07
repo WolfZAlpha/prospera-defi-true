@@ -7,31 +7,28 @@ if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
 }
 
-interface Cached {
-  conn: typeof mongoose | null;
-  promise: Promise<typeof mongoose> | null;
-}
-
-let cached: Cached = (global as any).mongoose;
-
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
-}
+let cached: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } = (global as any).mongoose || { conn: null, promise: null };
 
 async function dbConnect() {
   if (cached.conn) {
+    console.log('Using existing database connection');
     return cached.conn;
   }
 
   if (!cached.promise) {
     const opts: mongoose.ConnectOptions = {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
     };
 
+    console.log('Creating new database connection');
     cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
-      console.log('Connected to MongoDB');
+      console.log('New database connection created successfully');
       return mongoose;
     });
+  } else {
+    console.log('Using existing database connection promise');
   }
 
   try {
@@ -39,6 +36,7 @@ async function dbConnect() {
     return cached.conn;
   } catch (e) {
     cached.promise = null;
+    console.error('Error in database connection:', e);
     throw e;
   }
 }

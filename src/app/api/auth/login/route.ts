@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
+import mongoose from 'mongoose';
 
 export async function POST(req: Request) {
   try {
@@ -36,8 +37,11 @@ export async function POST(req: Request) {
     console.log(`Login successful for user: ${emailOrUsername}`);
 
     return NextResponse.json({ token, user: user.toJSON() });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Detailed login error:', error);
+    if (error instanceof mongoose.Error) {
+      return NextResponse.json({ message: 'Database error', error: error.message }, { status: 500 });
+    }
     return NextResponse.json({ message: 'Server error', error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }
