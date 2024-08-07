@@ -73,17 +73,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-
-  serverRuntimeConfig: {
-  // Will only be available on the server side
-    MONGODB_URI: process.env.MONGODB_URI,
-    CA_CERT: process.env.CA_CERT,
-  },
-
-  publicRuntimeConfig: {
-    // Will be available on both server and client
-    staticFolder: '/static',
-  },
 };
 
 export default nextConfig;
