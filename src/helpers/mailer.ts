@@ -23,16 +23,16 @@ export const sendEmail = async({email, emailType, userId}:any) => {
     }
 
     var transport = nodemailer.createTransport({
-      host: "live.smtp.mailtrap.io",
-      port: 587,
+      host: process.env.MAILTRAP_HOST,
+      port: parseInt(process.env.MAILTRAP_PORT || '587'),
       auth: {
-        user: "api",
-        pass: "03215ebc81b1c94c07faa9a5bc383ba7"
+        user: process.env.MAILTRAP_USER,
+        pass: process.env.MAILTRAP_PASS
       }
     });
 
     const mailOptions = {
-      from: 'mailtrap@prosperadefi.com',
+      from: process.env.EMAIL_FROM,
       to: email,
       subject: emailType === "VERIFY" ? "Verify your email" : "Reset your password",
       text: `Click the link to ${emailType === "VERIFY" ? "verify your email" : "reset your password"}: ${process.env.NEXT_PUBLIC_APP_URL}/verifyemail?token=${hashedToken}`,
