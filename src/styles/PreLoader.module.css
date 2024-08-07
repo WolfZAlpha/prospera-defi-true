@@ -205,49 +205,60 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .preloaderContainer {
-    justify-content: flex-start;
-    padding: 10px;
+    justify-content: space-between;
+    padding: 20px 10px;
   }
 
   .logo {
     width: 30%;
     max-width: 150px;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .bottomContent {
-    margin-top: auto;
-    padding-bottom: 10px;
+    justify-content: flex-start;
+    margin-top: 20px;
   }
 
   .backgroundImage {
     width: 35%;
     max-width: 150px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   .glowingBtn {
     font-size: 1em;
     padding: 0.15em 0.4em;
     letter-spacing: 0.3em;
+    margin-bottom: 20px;
   }
 }
 
 @media (max-width: 480px) {
+  .preloaderContainer {
+    padding: 15px 10px;
+  }
+
   .logo {
     width: 25%;
     max-width: 120px;
+    margin-top: 5px;
+  }
+
+  .bottomContent {
     margin-top: 10px;
   }
 
   .backgroundImage {
     width: 30%;
     max-width: 120px;
+    margin-bottom: 15px;
   }
 
   .glowingBtn {
     font-size: 0.8em;
     padding: 0.1em 0.2em;
     letter-spacing: 0.2em;
+    margin-bottom: 15px;
   }
 }
