@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI;
+const CA_CERT = process.env.CA_CERT;
+
 console.log('MONGODB_URI:', MONGODB_URI);
 
 if (!MONGODB_URI) {
@@ -21,6 +23,11 @@ async function dbConnect() {
       serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
     };
+
+    if (CA_CERT) {
+      (opts as any).tls = true;
+      (opts as any).tlsCAFile = Buffer.from(CA_CERT, 'base64');
+    }
 
     console.log('Creating new database connection');
     cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
