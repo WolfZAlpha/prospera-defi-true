@@ -9,10 +9,8 @@ const SelectionPage: React.FC = () => {
 
   const handleNavigation = (path: string) => {
     if (path.startsWith('https')) {
-      // For external links, use window.location
       window.location.href = path;
     } else {
-      // For internal navigation, use router.push
       router.push(path);
     }
   };
