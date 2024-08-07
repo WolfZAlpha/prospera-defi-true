@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import PreLoader from './components/PreLoader';
 
@@ -10,9 +10,7 @@ export default function Home() {
 
   const handlePreloaderComplete = () => {
     setShowPreloader(false);
-    setTimeout(() => {
-      router.push('/login');
-    }, 2000);
+    router.push('/login');
   };
 
   if (showPreloader) {

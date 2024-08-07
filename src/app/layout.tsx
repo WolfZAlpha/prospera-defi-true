@@ -3,8 +3,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useEffect, useState } from 'react';
-import PreLoader from './components/PreLoader';
+import { useEffect } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,9 +19,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [loading, setLoading] = useState(true);
-  const [preloaderCompleted, setPreloaderCompleted] = useState(false);
-
   useEffect(() => {
     // Dynamically import Bootstrap JS
     const loadBootstrap = async () => {
@@ -36,11 +32,6 @@ export default function RootLayout({
     loadBootstrap();
   }, []);
 
-  const handlePreloaderComplete = () => {
-    setPreloaderCompleted(true);
-    setLoading(false);
-  };
-
   return (
     <html lang="en">
       <head>
@@ -48,11 +39,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ErrorBoundary>
-          {loading ? (
-            <PreLoader onComplete={handlePreloaderComplete} />
-          ) : (
-            children
-          )}
+          {children}
         </ErrorBoundary>
       </body>
     </html>
