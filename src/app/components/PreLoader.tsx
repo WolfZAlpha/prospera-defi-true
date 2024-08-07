@@ -42,7 +42,7 @@ const PreLoader: React.FC<PreLoaderProps> = ({ onComplete }) => {
     const userResponse = prompt("DO YOU WISH TO PROSPER HUMAN?");
     if (userResponse && ['yes', 'YES', 'Yes'].includes(userResponse.trim())) {
       onComplete();
-      router.push('/login');
+      router.push('/selection');
     } else {
       alert("User Authorization Denied. You have failed human. Try Again!");
       setTimeout(() => {
