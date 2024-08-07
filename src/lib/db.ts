@@ -43,19 +43,16 @@ async function dbConnect(): Promise<mongoose.Mongoose> {
   // Create a new connection promise if one doesn't exist
   if (!cached.promise) {
     const opts: mongoose.ConnectOptions = {
-      // Buffer commands for serverless environments
       bufferCommands: false,
-      // Timeout settings
-      serverSelectionTimeoutMS: 30000, // 30 seconds timeout for server selection
-      socketTimeoutMS: 45000,          // 45 seconds timeout for socket
-      // Connection pool settings
-      maxPoolSize: 10,                 // Limit connection pool to 10 connections
-      tls: CA_CERT !== undefined,      // Enable TLS if CA_CERT is defined
-      tlsAllowInvalidHostnames: false, // Strict hostname validation
-      tlsAllowInvalidCertificates: false, // Strict certificate validation
-      tlsCAFile: CA_CERT?.includes('BEGIN CERTIFICATE') || CA_CERT?.match(/^([A-Za-z0-9+/=]+)$/)
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 45000,
+      maxPoolSize: 10,
+      tls: !!CA_CERT, // Enable TLS if CA_CERT is defined
+      tlsAllowInvalidHostnames: false,
+      tlsAllowInvalidCertificates: false,
+      tlsCAFile: CA_CERT && (CA_CERT.includes('BEGIN CERTIFICATE') || CA_CERT.match(/^([A-Za-z0-9+/=]+)$/))
         ? getDecodedCACert(CA_CERT)
-        : CA_CERT // Handle Base64 or raw cert file path
+        : undefined
     };
 
     console.log('Creating new database connection');
@@ -67,7 +64,7 @@ async function dbConnect(): Promise<mongoose.Mongoose> {
 
     // Establish connection with Mongoose and cache the promise
     cached.promise = mongoose
-      .connect(MONGODB_URI, opts)  // MONGODB_URI is now guaranteed to be a string
+      .connect(MONGODB_URI, opts) 
       .then((mongoose) => {
         console.log('New database connection created successfully');
         return mongoose;
@@ -81,11 +78,9 @@ async function dbConnect(): Promise<mongoose.Mongoose> {
   }
 
   try {
-    // Await the cached promise to establish the connection
     cached.conn = await cached.promise;
     return cached.conn;
   } catch (e) {
-    // Reset the cached promise if an error occurs
     cached.promise = null;
     console.error('Error in database connection:', e);
     throw e;
