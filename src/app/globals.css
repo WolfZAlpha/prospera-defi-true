@@ -1,7 +1,13 @@
 /* src/styles/globals.css */
 
-/* styles/globals.css */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+html, body {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 body {
   font-family: 'Roboto', sans-serif;
