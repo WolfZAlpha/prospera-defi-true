@@ -236,7 +236,7 @@
     font-size: 0.9em;
     padding: 0.15em 0.3em;
     letter-spacing: 0.2em;
-    margin-bottom: 5px; /* Remove any bottom margin */
+    margin-bottom: 15px; /* Remove any bottom margin */
   }
 
   .glowingTxt {
