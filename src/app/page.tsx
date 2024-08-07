@@ -10,7 +10,7 @@ export default function Home() {
 
   const handlePreloaderComplete = () => {
     setShowPreloader(false);
-    router.push('/login');
+    router.push('/selection');
   };
 
   if (showPreloader) {
