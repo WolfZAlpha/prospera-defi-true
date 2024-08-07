@@ -3,13 +3,14 @@ import bcrypt from 'bcryptjs';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import mongoose from 'mongoose';
+import { sendEmail } from '@/helpers/mailer';
 
 export async function POST(req: Request) {
   console.log('Registration route hit');
   try {
-    console.log('Attempting to connect to database');
+    console.log('Attempting to connect to database for registration');
     await dbConnect();
-    console.log('Connected to database successfully');
+    console.log('Connected to database successfully for registration');
 
     const { email, username, password, arbitrumWallet } = await req.json();
     console.log(`Registration attempt for email: ${email}, username: ${username}`);
@@ -40,7 +41,11 @@ export async function POST(req: Request) {
     await newUser.save();
     console.log(`User registered successfully: ${email}`);
 
-    return NextResponse.json({ message: 'User registered successfully', user: newUser.toJSON() }, { status: 201 });
+    // Send verification email
+    await sendEmail({ email, emailType: "VERIFY", userId: newUser._id });
+    console.log(`Verification email sent to: ${email}`);
+
+    return NextResponse.json({ message: 'User registered successfully. Please check your email to verify your account.', user: newUser.toJSON() }, { status: 201 });
   } catch (error: unknown) {
     console.error('Detailed registration error:', error);
     if (error instanceof mongoose.Error.ValidationError) {

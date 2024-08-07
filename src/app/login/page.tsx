@@ -63,13 +63,19 @@ const LoginPage: React.FC = () => {
       if (response.status === 200 || response.status === 201) {
         if (!isSignUp && response.data.token) {
           localStorage.setItem('token', response.data.token);
+          // Consider using a secure cookie instead:
+          // document.cookie = `token=${response.data.token}; path=/; secure; httpOnly`;
+        }
+        if (isSignUp) {
+          // Trigger email verification here if needed
+          console.log('User registered, verification email sent');
         }
         router.push('/selection');
       }
     } catch (error) {
       console.error('Error:', error);
       if (axios.isAxiosError(error)) {
-        setError(error.response ? error.response.data.message : 'Server error');
+        setError(error.response?.data?.message || 'An error occurred during submission');
       } else {
         setError('An unexpected error occurred');
       }

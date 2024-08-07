@@ -1,12 +1,23 @@
 import jwt from 'jsonwebtoken'
 import { NextRequest } from "next/server"
 
-export const getDataFromToken = (request: NextRequest) => {
+export const getDataFromToken = (request: NextRequest): string | null => {
   try {
     const token = request.cookies.get("token")?.value || '';
-    const decodedToken:any = jwt.verify(token, process.env.JWT_SECRET!);
-    return decodedToken.id;
+    if (!token) {
+      console.log('No token found in cookies');
+      return null;
+    }
+
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is not defined');
+      return null;
+    }
+
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET) as { userId: string };
+    return decodedToken.userId;
   } catch (error: any) {
-    throw new Error(error.message)
+    console.error('Error decoding token:', error.message);
+    return null;
   }
 }

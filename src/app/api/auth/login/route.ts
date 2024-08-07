@@ -7,9 +7,9 @@ import mongoose from 'mongoose';
 
 export async function POST(req: Request) {
   try {
-    console.log('Attempting to connect to database');
+    console.log('Attempting to connect to database for login');
     await dbConnect();
-    console.log('Connected to database successfully');
+    console.log('Connected to database successfully for login');
 
     const { emailOrUsername, password } = await req.json();
     console.log(`Login attempt for: ${emailOrUsername}`);
@@ -33,14 +33,28 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'Invalid credentials' }, { status: 400 });
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is not defined');
+      return NextResponse.json({ message: 'Server configuration error' }, { status: 500 });
+    }
+
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     console.log(`Login successful for user: ${emailOrUsername}`);
 
-    return NextResponse.json({ token, user: user.toJSON() });
+    const response = NextResponse.json({ message: 'Login successful', user: user.toJSON() });
+    response.cookies.set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 3600, // 1 hour
+      path: '/',
+    });
+
+    return response;
   } catch (error: unknown) {
     console.error('Detailed login error:', error);
     if (error instanceof mongoose.Error) {
-      return NextResponse.json({ message: 'Database error', error: error.message }, { status: 500 });
+      return NextResponse.json({ message: 'Database error', error: (error as Error).message }, { status: 500 });
     }
     return NextResponse.json({ message: 'Server error', error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }

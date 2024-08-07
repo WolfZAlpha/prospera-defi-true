@@ -2,27 +2,26 @@ import nodemailer from "nodemailer"
 import User from "@/models/User"
 import bcryptjs from "bcryptjs"
 
-export const sendEmail = async({email, emailType, userId}:any) => {
+interface EmailParams {
+  email: string;
+  emailType: "VERIFY" | "RESET";
+  userId: string;
+}
+
+export const sendEmail = async({ email, emailType, userId }: EmailParams) => {
   try {
-    const hashedToken = await bcryptjs.hash(userId.toString(), 10)
+    // Generate hashed token
+    const hashedToken = await bcryptjs.hash(userId.toString(), 10);
 
-    if(emailType === "VERIFY") {
-      await User.findByIdAndUpdate(userId,
-        {
-          verifyToken: hashedToken,
-          verifyTokenExpiry: Date.now() + 3600000
-        },
-      )
-    } else if(emailType === "RESET") {
-      await User.findByIdAndUpdate(userId,
-        {
-          forgotPasswordToken: hashedToken,
-          forgotPasswordTokenExpiry: Date.now() + 3600000
-        },
-      )
-    }
+    // Update user with token
+    const updateData = emailType === "VERIFY" 
+      ? { verifyToken: hashedToken, verifyTokenExpiry: Date.now() + 3600000 }
+      : { forgotPasswordToken: hashedToken, forgotPasswordTokenExpiry: Date.now() + 3600000 };
+    
+    await User.findByIdAndUpdate(userId, updateData);
 
-    var transport = nodemailer.createTransport({
+    // Create transport
+    const transport = nodemailer.createTransport({
       host: process.env.MAILTRAP_HOST,
       port: parseInt(process.env.MAILTRAP_PORT || '587'),
       auth: {
@@ -31,6 +30,10 @@ export const sendEmail = async({email, emailType, userId}:any) => {
       }
     });
 
+    // Verify transport connection
+    await transport.verify();
+
+    // Prepare email content
     const mailOptions = {
       from: process.env.EMAIL_FROM,
       to: email,
@@ -48,14 +51,15 @@ export const sendEmail = async({email, emailType, userId}:any) => {
           <p>If you didn't request this, please ignore this email.</p>
         </div>
       `
-    }
+    };
 
+    // Send email
     const mailresponse = await transport.sendMail(mailOptions);
     console.log("Email sent successfully:", mailresponse.messageId);
     return mailresponse;
 
   } catch (error: any) {
     console.error("Error sending email:", error);
-    throw new Error(error.message);
+    throw new Error(`Failed to send email: ${error.message}`);
   }
 }
